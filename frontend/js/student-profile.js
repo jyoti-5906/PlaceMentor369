@@ -330,11 +330,14 @@ resetProfileBtn?.addEventListener("click", async () => {
             })
         });
 
-        if (!res.ok) throw new Error("Reset failed");
+        if (!res.ok) {
+            const errData = await res.json().catch(() => ({}));
+            throw new Error(errData.message || "Reset failed");
+        }
 
         // Clear UI inputs
-        fullNameInput.value = "";
-        rollInput.value = "";
+        firstNameInput.value = "";
+        lastNameInput.value = "";
         cgpaInput.value = "";
         branchSelect.value = "";
         skills = [];
@@ -348,8 +351,8 @@ resetProfileBtn?.addEventListener("click", async () => {
 
         showToast("🧹 Profile and Resume reset successfully!", "success");
     } catch (err) {
-        console.error(err);
-        showToast("❌ Reset failed", "error");
+        console.error("Reset Profile Error:", err);
+        showToast("❌ Reset failed: " + err.message, "error");
     } finally {
         resetProfileBtn.disabled = false;
         resetProfileBtn.innerText = "Reset Profile Data";
