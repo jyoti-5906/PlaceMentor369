@@ -54,10 +54,13 @@ let resumeBase64 = null;
 // UTILITY FUNCTIONS
 // ============================
 function updateCompletion() {
+    const branchVal = branchSelect.value ? branchSelect.value.trim().toLowerCase() : "";
+    const isBranchValid = branchVal !== "" && branchVal !== "select branch" && branchVal !== "choose your branch";
+
     const filled = [
         fullNameInput.value.trim(),
         rollInput.value.trim(),
-        branchSelect.value,
+        isBranchValid ? branchSelect.value : "",
         cgpaInput.value,
         skills.length > 0,
         resumeBase64

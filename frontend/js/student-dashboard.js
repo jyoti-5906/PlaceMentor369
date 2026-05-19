@@ -32,10 +32,15 @@ async function loadProfileCompletion() {
 
     if (!profile) return;
 
+    const isBranchFilled = profile.branch && 
+                           profile.branch.trim() !== "" && 
+                           profile.branch.trim().toLowerCase() !== "select branch" && 
+                           profile.branch.trim().toLowerCase() !== "choose your branch";
+
     const filled = [
       profile.name ? profile.name.trim() : "",
       profile.roll ? profile.roll.trim() : "",
-      profile.branch ? profile.branch.trim() : "",
+      isBranchFilled ? profile.branch.trim() : "",
       profile.cgpa && profile.cgpa > 0 ? "true" : "",
       profile.skills && profile.skills.length > 0 ? "true" : "",
       profile.resume ? "true" : ""
