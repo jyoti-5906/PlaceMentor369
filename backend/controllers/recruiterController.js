@@ -85,11 +85,10 @@ export const getAllRecruiterApplications = async (req, res) => {
 ====================================================== */
 export const updateApplicantStatus = async (req, res) => {
   try {
-    const applicationId = req.params.applicationId || req.body.applicationId;
-    const { status } = req.body;
+    const {applicationId, status} = req.body;
 
-    if (!applicationId) {
-      return res.status(400).json({ message: "Application ID is required" });
+    if (!applicationId || !status) {
+      return res.status(400).json({ message: "Application ID  and status are required" });
     }
 
     const application = await Application.findById(applicationId)
@@ -104,7 +103,7 @@ export const updateApplicantStatus = async (req, res) => {
     await application.save();
 
     if (status === "shortlisted" || status === "rejected") {
-      sendStatusUpdateEmail(
+       await sendStatusUpdateEmail(
         application.student.email,
         application.student.name,
         application.job.title,
