@@ -1,8 +1,6 @@
 // ============================
 // CONSTANTS & SESSION
 // ============================
-const API_BASE = "http://localhost:5000/api/student";
-;
 const SESSION_KEY = "placementor_session";
 
 function getSession() {
@@ -214,11 +212,7 @@ removeResumeBtn?.addEventListener("click", () => {
 // ============================
 async function loadProfile() {
     try {
-        const res = await fetch(`${API_BASE}/profile`, {
-            headers: { Authorization: `Bearer ${token}` }
-        });
-        if (!res.ok) throw new Error("Failed to fetch profile");
-        const profile = await res.json();
+        const profile = await apiRequest("/student/profile", "GET");
 
         const nameParts = (profile.name || "").trim().split(/\s+/);
         firstNameInput.value = nameParts[0] || "";
@@ -262,16 +256,7 @@ saveBtn?.addEventListener("click", async () => {
         saveBtn.innerText = "Saving...";
         saveBtn.disabled = true;
 
-        const res = await fetch(`${API_BASE}/profile`, {
-            method: "PATCH",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`
-            },
-            body: JSON.stringify(payload)
-        });
-
-        if (!res.ok) throw new Error("Save failed");
+        await apiRequest("/student/profile", "PATCH", payload);
 
         showToast("✅ Profile saved successfully!", "success");
     } catch (err) {
@@ -340,6 +325,8 @@ resetProfileBtn?.addEventListener("click", async () => {
     }
 });
 // ============================
+"use strict";
+
 document.addEventListener("DOMContentLoaded", () => {
     loadProfile();
 
