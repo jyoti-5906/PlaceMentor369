@@ -32,10 +32,21 @@ export const createJob = async (req, res) => {
     if (!title || !company || !description || !deadline) {
       return res.status(400).json({ message: "Missing required fields" });
     }
+    const normalizedCompany = company.trim().toLowerCase();
+
+const existingCompany = await Job.findOne({
+  company: { $regex: new RegExp(`^${normalizedCompany}$`, "i") }
+});
+
+if (existingCompany) {
+  return res.status(400).json({
+    message: "Company already exists"
+  });
+}
 
     const job = await Job.create({
       title,
-      company,
+      company: company.trim(),
       description,
       cgpa,
       branch: branch || branches || [],
