@@ -201,7 +201,18 @@
       src="https://files.bpcontent.cloud/2026/01/29/16/20260129163015-0ZV4O3BK.js"
       defer
     ></script>
-
+    <!-- Mobile Navigation -->
+<script src="../js/mobile-nav.js"></script>
+<script>
+  injectMobileNav([
+    { href: './student-dashboard.html', icon: 'layout-dashboard', label: 'Dashboard' },
+    { href: './student-profile.html', icon: 'user', label: 'Profile' },
+    { href: './student-joblist.html', icon: 'briefcase', label: 'Jobs' },
+    { href: './student-application.html', icon: 'file-text', label: 'My Applications' },
+    { href: './prep-dashboard.html', icon: 'sliders', label: 'Prep Tracker' },
+  ], 'student-dashboard','md');
+</script>
     <!-- Botpress Chatbot Scripts -->
   </body>
+
 </html>
